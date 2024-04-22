@@ -1,12 +1,12 @@
 <?php
 class Calculate
 {
-  public function calculateTotalValue(string $value): int
+  public function calculateTotalValue(string $value, int $total_value): int
   {
       if ($value == 'J' || $value == 'Q' || $value == 'K') {
         return 10;
       } else if ($value == 'A') {
-        return 1;
+        return $this->calculateAceValue($total_value);
       } else {
         return intval($value);
       }
@@ -14,13 +14,14 @@ class Calculate
 
   private function calculateAceValue(int $total_value): int
   {
+    // 合計値に1 または 11をそれぞれ足す
     $add_one = $total_value + 1;
     $add_eleven = $total_value + 11;
 
-    if (21 < $add_one) {
-      return $add_one;
-    }
+    // どちらを足しても21を超える場合は、1を返す
+    if(21 < $add_one || 21 < $add_eleven) return 1;
 
+    // 21以内で最大となる方を値として返す
     $add_one_diff = abs(21 - $add_one);
     $add_eleven_diff = abs(21 - $add_eleven);
 

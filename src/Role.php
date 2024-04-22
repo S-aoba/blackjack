@@ -85,7 +85,7 @@ class Role
     foreach ($hands as $card) {
       $value = $card->getValue();
 
-      $int_val = $calc->calculateTotalValue($value);
+      $int_val = $calc->calculateTotalValue($value, $res);
       $res += $int_val;
     }
 
