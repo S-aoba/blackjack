@@ -3,12 +3,11 @@
 require "Deck.php";
 require "Player.php";
 require "Dealer.php";
+require "CPU.php";
 require "Calculate.php";
 
 class Game
 {
-  private int $cpu_max_total_value = 21;
-
   public function start(): void
   {
     // ゲーム開始のコール
@@ -19,9 +18,12 @@ class Game
     $calc = new Calculate();
 
     // Playerのターン
-    $player = new Player($deck);
+    $player = new Player($deck, 'あなた');
 
-    $dealer = new Dealer($deck);
+    $cpu1 = new CPU($deck, 'CPU1');
+    $cpu2 = new CPU($deck, 'CPU2');
+
+    $dealer = new Dealer($deck, 'ディーラー');
 
     $player_total_value = $player->getPlayerTotalValue($calc);
 
@@ -32,7 +34,9 @@ class Game
     }
 
     // CPUのターン
-    // $cpu_total_value = $cpu->getCpuTotalValue();
+    $cpu1_total_value = $cpu1->getCpuTotalValue($calc, 'CPU1');
+    $cpu2_total_value = $cpu2->getCpuTotalValue($calc, 'CPU2');
+
     // 手札の合計値が$cpu_max_total_valueを超えていたら、CPU1 or CPU2の負け
 
     // Dealerのターン
@@ -40,24 +44,32 @@ class Game
     echo "ディーラーの合計が" . $dealer->getMaxTotalValue() . "点を超えましたのでディーラーのターンを終了します。" . PHP_EOL;
 
     // Player, CPU, Dealerの合計値を比較して,勝者を決める
-    $this->calculateWinnerByClosestTo21($player_total_value, $dealer_total_value);
+    $this->calculateWinnerByClosestTo21($player_total_value, $dealer_total_value, $cpu1_total_value, $cpu2_total_value);
     echo "ブラックジャックを終了します";
   }
 
-  private function calculateWinnerByClosestTo21(int $player_total, int $dealer_total)
+  private function calculateWinnerByClosestTo21(int $player_total, int $dealer_total, int $cpu1_total, int $cpu2_total)
   {
     $dealerDiff = abs(21 - $dealer_total);
     $playerDiff = abs(21 - $player_total);
+    $cpu1Diff = abs(21 - $cpu1_total);
+    $cpu2Diff = abs(21 - $cpu2_total);
 
     echo "あなたの合計点: " . $player_total . PHP_EOL;
     echo "ディーラーの合計点: " . $dealer_total . PHP_EOL;
+    echo "CPU1の合計点: " . $cpu1_total . PHP_EOL;
+    echo "CPU2の合計点: " . $cpu2_total . PHP_EOL;
 
-    if ($dealerDiff < $playerDiff) {
+    $minDiff = min($dealerDiff, $playerDiff, $cpu1Diff, $cpu2Diff);
+
+    if ($minDiff == $dealerDiff) {
       echo "ディーラーの勝利です。" . PHP_EOL;
-    } elseif ($playerDiff < $dealerDiff) {
+    } elseif ($minDiff == $playerDiff) {
       echo "あなたの勝利です！" . PHP_EOL;
+    } elseif ($minDiff == $cpu1Diff) {
+      echo "CPU1の勝利です！" . PHP_EOL;
     } else {
-      echo "両者同じくらい21点に近いため、引き分けです。" . PHP_EOL;
+      echo "CPU2の勝利です！" . PHP_EOL;
     }
   }
 }

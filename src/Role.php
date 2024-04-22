@@ -5,11 +5,13 @@ class Role
   protected array $hands = [];
   protected Deck $deck;
   protected int $max_total_value;
+  protected string $role = '';
 
-  public function __construct(int $max_total_value, Deck $deck)
+  public function __construct(int $max_total_value, Deck $deck, string $role)
   {
     $this->max_total_value = $max_total_value;
     $this->deck = $deck;
+    $this->role = $role;
   }
 
   protected function getAndSetTwoCardsInHands(): void
@@ -41,7 +43,7 @@ class Role
         echo "ディーラーの引いた2枚目のカードはわかりません" . PHP_EOL;
       }
     }
-    // プレイヤーの場合
+    // プレイヤー or CPUの場合
     else {
       foreach ($hands as $card) {
         $value = $card->getValue();

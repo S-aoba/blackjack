@@ -2,15 +2,15 @@
 
 class Dealer extends Role
 {
-  public function __construct(Deck $deck)
+  public function __construct(Deck $deck, string $role)
   {
-    parent::__construct(17, $deck);
+    parent::__construct(17, $deck, $role);
 
     // 最初のカードを2枚取得, handsにセットする
     $this->getAndSetTwoCardsInHands();
 
     // 取得したカード2枚をコンソールに表示する
-    $this->displayHands('ディーラー');
+    $this->displayHands($role);
   }
 
 
@@ -29,7 +29,7 @@ class Dealer extends Role
       // 現在の手札の合計を計算する
       $total_value = $this->calculateTotalValue($calc);
 
-      echo "ディーラーの現在の現在の得点は" . $total_value . "点です" . PHP_EOL;
+      echo "ディーラーの現在の得点は" . $total_value . "点です" . PHP_EOL;
 
       // 追加で一枚引く
       $drawCard = $this->deck->drawOneCard();

@@ -4,15 +4,15 @@ require "Role.php";
 
 class Player extends Role
 {
-  public function __construct(Deck $deck)
+  public function __construct(Deck $deck, string $role)
   {
-    parent::__construct(21, $deck);
+    parent::__construct(21, $deck, $role);
 
     // 最初のカードを2枚取得, handsにセットする
     $this->getAndSetTwoCardsInHands();
 
     // 取得したカード2枚をコンソールに表示する
-    $this->displayHands('あなた');
+    $this->displayHands($role);
   }
 
   public function getPlayerTotalValue(Calculate $calc): int
