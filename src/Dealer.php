@@ -21,7 +21,7 @@ class Dealer extends Role
     $secondCardValue = $secondCard->getValue();
     $secondCardSuit = $this->convertSuit($secondCard->getSuit());
 
-    echo "ディーラーの引いた2枚目のカードは" . $secondCardSuit . "の" . $secondCardValue . "でした" . PHP_EOL;
+    echo "ディーラーの引いた2枚目のカードは" . $secondCardSuit . "の" . $secondCardValue . "です" . PHP_EOL;
 
     $total_value = 0;
 
