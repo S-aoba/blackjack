@@ -33,11 +33,21 @@ class Game
       return;
     }
 
-    // CPUのターン
+    // CPU1のターン
     $cpu1_total_value = $cpu1->getCpuTotalValue($calc, 'CPU1');
+    // 手札の合計値が$cpu1_max_total_valueを超えていたら、CPU1の負け
+    if ($cpu1->getMaxTotalValue() < $cpu1_total_value) {
+      echo "CPU1の合計が" . $cpu1->getMaxTotalValue() . "点を超えましたのでCPU1の負けです" . PHP_EOL;
+      return;
+    }
+    
+    // CPU1のターン
     $cpu2_total_value = $cpu2->getCpuTotalValue($calc, 'CPU2');
-
-    // 手札の合計値が$cpu_max_total_valueを超えていたら、CPU1 or CPU2の負け
+    // 手札の合計値が$cpu2_max_total_valueを超えていたら、CPU2の負け
+    if ($cpu2->getMaxTotalValue() < $cpu2_total_value) {
+      echo "CPU2の合計が" . $cpu2->getMaxTotalValue() . "点を超えましたのでCPU2の負けです" . PHP_EOL;
+      return;
+    }
 
     // Dealerのターン
     $dealer_total_value = $dealer->getDealerTotalValue($calc);
