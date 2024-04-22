@@ -4,7 +4,7 @@ class CPU extends Role
 {
   public function __construct(Deck $deck, string $role)
   {
-    parent::__construct(21, $deck, $role);
+    parent::__construct(17, $deck, $role);
 
     // 最初のカードを2枚取得, handsにセットする
     $this->getAndSetTwoCardsInHands();

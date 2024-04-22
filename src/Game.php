@@ -34,20 +34,22 @@ class Game
     }
 
     // CPU1のターン
+    // CPUの挙動を考える必要があるが、一旦ディーラーと同じ動きにしておく。
+    // TODO: CPUの動きのアルゴリズムを考える。
     $cpu1_total_value = $cpu1->getCpuTotalValue($calc, 'CPU1');
     // 手札の合計値が$cpu1_max_total_valueを超えていたら、CPU1の負け
-    if ($cpu1->getMaxTotalValue() < $cpu1_total_value) {
-      echo "CPU1の合計が" . $cpu1->getMaxTotalValue() . "点を超えましたのでCPU1の負けです" . PHP_EOL;
-      return;
-    }
-    
+    // if ($cpu1->getMaxTotalValue() < $cpu1_total_value) {
+    //   echo "CPU1の合計が" . $cpu1->getMaxTotalValue() . "点を超えましたのでCPU1の負けです" . PHP_EOL;
+    //   return;
+    // }
+
     // CPU1のターン
     $cpu2_total_value = $cpu2->getCpuTotalValue($calc, 'CPU2');
     // 手札の合計値が$cpu2_max_total_valueを超えていたら、CPU2の負け
-    if ($cpu2->getMaxTotalValue() < $cpu2_total_value) {
-      echo "CPU2の合計が" . $cpu2->getMaxTotalValue() . "点を超えましたのでCPU2の負けです" . PHP_EOL;
-      return;
-    }
+    // if ($cpu2->getMaxTotalValue() < $cpu2_total_value) {
+    //   echo "CPU2の合計が" . $cpu2->getMaxTotalValue() . "点を超えましたのでCPU2の負けです" . PHP_EOL;
+    //   return;
+    // }
 
     // Dealerのターン
     $dealer_total_value = $dealer->getDealerTotalValue($calc);
