@@ -1,56 +1,52 @@
 <?php
 
-require "Calculate.php";
+require "Role.php";
 
-class Player
+class Player extends Role
 {
-  private array $hands = [];
-  private int $player_max_total_value = 21;
-
-  public function __construct(private Deck $deck)
+  public function __construct(Deck $deck)
   {
-    $this->deck = $deck;
-    $this->setHands($deck->drawTwoCards());
+    parent::__construct(21, $deck);
+
+    // 最初のカードを2枚取得, handsにセットする
+    $this->getAndSetTwoCardsInHands();
+
+    // 取得したカード2枚をコンソールに表示する
+    $this->displayHands('あなた');
   }
 
-  private function setHands(array $drawCards): void
+  public function getPlayerTotalValue(Calculate $calc): int
   {
-    foreach ($drawCards as $card) {
-      $this->displayCard($card);
-      array_push($this->hands, $card);
-    }
-  }
-
-
-  public function getHands(): array
-  {
-    return $this->hands;
-  }
-
-  public function getPlayerMaxTotalValue(): int
-  {
-    return $this->player_max_total_value;
-  }
-
-  public function getPlayerTotalValue(): int
-  {
-
-    $calculate = new Calculate();
     $total_value = 0;
-    while (true) {
-      $total_value = $calculate->calculateTotalValue($this->hands, 0);
 
+    while (true) {
+      // 現在の手札の合計を計算する
+      $total_value = $this->calculateTotalValue($calc);
+
+      // ユーザーのアクションを受け取る。Yならカードを一枚引く, nならwhile文を抜ける。
       $action = $this->playerAction($total_value);
 
+      // ユーザーの選択したactionを表示する
+      echo strtoupper($action) . PHP_EOL;
+
+      // Y or n であれば、大文字小文字どちらでもOKにする
       if ($action == 'Y' || $action == 'y') {
-        echo strtoupper($action) . PHP_EOL;
 
+        // 追加で一枚引く
         $drawCard = $this->deck->drawOneCard();
-        $total_value = $calculate->calculateTotalValue($drawCard, $total_value);
 
-        if ($this->player_max_total_value < $total_value) break;
+        // 引いたカードを表示する
+        $this->displayDrawCard($drawCard, 'あなた');
 
-        $this->setHands($drawCard);
+        // 手札に加える
+        $this->setOneDrawCardInHand($drawCard);
+
+        // 再度合計点を計算し直す
+        $total_value = $this->calculateTotalValue($calc);
+
+        // 手札の合計値がgetMaxTotalValueを超えていたらwhile文を抜ける
+        if ($this->getMaxTotalValue() < $total_value) break;
+
       } else if ($action == 'n' || $action == 'N') {
         echo "あなたのターンを終了します" . PHP_EOL;
         break;
@@ -66,19 +62,5 @@ class Player
   {
     echo "あなたの現在の得点は" . $total_value . "点です。" . " カードを引きますか？ (Y/n) ";
     return trim(fgets(STDIN));
-  }
-
-  private function displayCard(Card $card): void
-  {
-    $value = $card->getValue();
-    $suit = $card->getSuit();
-
-    $suit = match($suit) {
-      '♠' => 'スペード',
-      '♥' => 'ハート',
-      '♣' => 'クローバー',
-      '♦' => 'ダイヤモンド'
-    };
-    echo "あなたの引いたカードは" . $suit . "の" . $value . "です" . PHP_EOL;
   }
 }

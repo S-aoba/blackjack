@@ -3,6 +3,7 @@
 require "Deck.php";
 require "Player.php";
 require "Dealer.php";
+require "Calculate.php";
 
 class Game
 {
@@ -13,17 +14,20 @@ class Game
     // ゲーム開始のコール
     echo "ブラックジャックを開始します" . PHP_EOL;
 
-    // デッキの作成
     $deck = new Deck();
 
+    $calc = new Calculate();
 
     // Playerのターン
     $player = new Player($deck);
-    $player_total_value = $player->getPlayerTotalValue();
+
+    $dealer = new Dealer($deck);
+
+    $player_total_value = $player->getPlayerTotalValue($calc);
 
     // 手札の合計値が$player_max_total_valueを超えていたら、Playerの負け
-    if ($player->getPlayerMaxTotalValue() < $player_total_value) {
-      echo "あなたの合計が" . $player->getPlayerMaxTotalValue() . "点を超えましたのでPlayerの負けです" . PHP_EOL;
+    if ($player->getMaxTotalValue() < $player_total_value) {
+      echo "あなたの合計が" . $player->getMaxTotalValue() . "点を超えましたのであなたの負けです" . PHP_EOL;
       return;
     }
 
@@ -32,15 +36,11 @@ class Game
     // 手札の合計値が$cpu_max_total_valueを超えていたら、CPU1 or CPU2の負け
 
     // Dealerのターン
-    $dealer = new Dealer($deck);
-    $dealer_total_value = $dealer->getDealerTotalValue();
-    // 手札の合計値が$dealer_max_total_valueを超えていたら、Dealerの負け
-    echo "ディーラーのターンを終了します。" . PHP_EOL;
+    $dealer_total_value = $dealer->getDealerTotalValue($calc);
+    echo "ディーラーの合計が" . $dealer->getMaxTotalValue() . "点を超えましたのでディーラーのターンを終了します。" . PHP_EOL;
 
-
-    // Player, CPU, Dealerの合計値を比較して,照射を決める
+    // Player, CPU, Dealerの合計値を比較して,勝者を決める
     $this->calculateWinnerByClosestTo21($player_total_value, $dealer_total_value);
-
     echo "ブラックジャックを終了します";
   }
 

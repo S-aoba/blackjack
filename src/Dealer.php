@@ -1,65 +1,52 @@
 <?php
 
-class Dealer
+class Dealer extends Role
 {
-  private array $hands = [];
-  private int $dealer_max_total_value = 17;
-
-  public function __construct(private Deck $deck)
+  public function __construct(Deck $deck)
   {
-    $this->deck = $deck;
-    $this->setHands($deck->drawTwoCards());
+    parent::__construct(17, $deck);
+
+    // 最初のカードを2枚取得, handsにセットする
+    $this->getAndSetTwoCardsInHands();
+
+    // 取得したカード2枚をコンソールに表示する
+    $this->displayHands('ディーラー');
   }
 
-  private function setHands(array $drawCards): void
-  {
-    $this->displayCard($drawCards[0]);
-    foreach ($drawCards as $card) {
-      array_push($this->hands, $card);
-    }
-  }
 
-  public function getHands(): array
+  public function getDealerTotalValue(Calculate $calc): int
   {
-    return $this->hands;
-  }
+    // ディーラーの最初に引いた2枚目のカードを表示する
+    $secondCard = $this->hands[1];
+    $secondCardValue = $secondCard->getValue();
+    $secondCardSuit = $this->convertSuit($secondCard->getSuit());
 
-  public function getDealerMaxTotalValue(): int
-  {
-    return $this->dealer_max_total_value;
-  }
-  public function getDealerTotalValue(): int
+    echo "ディーラーの引いた2枚目のカードは" . $secondCardSuit . "の" . $secondCardValue . "でした" . PHP_EOL;
 
-  {
-    $calculate = new Calculate();
     $total_value = 0;
 
     while (true) {
-      $total_value = $calculate->calculateTotalValue($this->hands, 0);
+      // 現在の手札の合計を計算する
+      $total_value = $this->calculateTotalValue($calc);
 
       echo "ディーラーの現在の現在の得点は" . $total_value . "点です" . PHP_EOL;
+
+      // 追加で一枚引く
       $drawCard = $this->deck->drawOneCard();
-      $total_value = $calculate->calculateTotalValue($drawCard, $total_value);
 
-      if ($this->dealer_max_total_value < $total_value) break;
+      // 引いたカードを表示する
+      $this->displayDrawCard($drawCard, 'ディーラー');
 
-      $this->setHands($drawCard);
+      // 手札に加える
+      $this->setOneDrawCardInHand($drawCard);
+
+      // 再度合計点を計算し直す
+      $total_value = $this->calculateTotalValue($calc);
+
+      // 手札の合計値がgetMaxTotalValueを超えていたらwhile文を抜ける
+      if ($this->getMaxTotalValue() < $total_value) break;
     }
 
     return $total_value;
-  }
-
-  private function displayCard(Card $card): void
-  {
-    $value = $card->getValue();
-    $suit = $card->getSuit();
-
-    $suit = match ($suit) {
-      '♠' => 'スペード',
-      '♥' => 'ハート',
-      '♣' => 'クローバー',
-      '♦' => 'ダイヤモンド'
-    };
-    echo "ディーラーの引いたカードは" . $suit . "の" . $value . "です" . PHP_EOL;
   }
 }

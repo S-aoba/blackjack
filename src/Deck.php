@@ -51,17 +51,13 @@ class Deck
     return $drawCardList;
   }
 
-  public function drawOneCard(): array
+  public function drawOneCard(): Card
   {
-    $drawCardList = [];
-
-    array_push($drawCardList, $this->cardList[0]);
-    array_shift($this->cardList);
-
-    return $drawCardList;
+    return array_shift($this->cardList);
   }
 
-  public function getDeck(): array {
+  public function getDeck(): array
+  {
     return $this->cardList;
   }
 }
