@@ -1,4 +1,5 @@
 <?php
+
 class Calculate
 {
   public function calculateTotalValue(string $value, int $total_value): int
@@ -19,7 +20,7 @@ class Calculate
     $add_eleven = $total_value + 11;
 
     // どちらを足しても21を超える場合は、1を返す
-    if(21 < $add_one && 21 < $add_eleven) return 1;
+    if(21 < $add_one && 21 < $add_eleven || 21 < $add_one || 21 < $add_eleven) return 1;
 
     // 21以内で最大となる方を値として返す
     $add_one_diff = abs(21 - $add_one);
