@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+use App\Calculate;
+
 class CPU extends Role
 {
   public function __construct(Deck $deck, string $role)

@@ -1,6 +1,9 @@
 <?php
 
-require "Role.php";
+namespace App;
+
+use App\Calculate;
+use App\Role;
 
 class Player extends Role
 {

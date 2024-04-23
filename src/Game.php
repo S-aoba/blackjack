@@ -1,10 +1,12 @@
 <?php
 
-require "Deck.php";
-require "Player.php";
-require "Dealer.php";
-require "CPU.php";
-require "Calculate.php";
+require_once '../vendor/autoload.php';
+
+use App\Deck;
+use App\Calculate;
+use App\Player;
+use App\Dealer;
+use App\CPU;
 
 class Game
 {

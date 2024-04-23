@@ -1,5 +1,11 @@
 <?php
 
+namespace App;
+
+use App\Calculate;
+use App\Deck;
+use App\Role;
+
 class Dealer extends Role
 {
   public function __construct(Deck $deck, string $role)

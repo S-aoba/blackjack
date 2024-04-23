@@ -1,5 +1,11 @@
 <?php
 
+namespace App;
+
+use App\Calculate;
+use App\Deck;
+use App\Card;
+
 class Role
 {
   protected array $hands = [];

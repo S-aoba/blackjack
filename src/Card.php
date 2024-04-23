@@ -1,5 +1,6 @@
 <?php
 
+namespace App;
 class Card
 {
   private string $value;

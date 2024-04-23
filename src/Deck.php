@@ -1,6 +1,8 @@
 <?php
 
-require "Card.php";
+namespace App;
+
+use App\Card;
 
 class Deck
 {
