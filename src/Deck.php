@@ -6,7 +6,11 @@ use App\Card;
 
 class Deck
 {
+  /**
+   * @var Card[]
+   */
   private array $cardList;
+
 
   public function __construct()
   {
@@ -16,6 +20,9 @@ class Deck
     $this->shuffleDeck();
   }
 
+  /**
+   * @return Card[]
+   */
   private function generateDeck(): array
   {
     // 絵柄の配列
@@ -37,7 +44,9 @@ class Deck
     shuffle($this->cardList);
   }
 
-  // return: Card array
+  /**
+   * @return Card[]
+   */
   public function drawTwoCards(): array
   {
     $drawNum = 2;
@@ -58,6 +67,9 @@ class Deck
     return array_shift($this->cardList);
   }
 
+  /**
+   * @return Card[]
+   */
   public function getDeck(): array
   {
     return $this->cardList;

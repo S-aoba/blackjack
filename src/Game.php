@@ -62,7 +62,7 @@ class Game
     echo "ブラックジャックを終了します";
   }
 
-  private function calculateWinnerByClosestTo21(int $player_total, int $dealer_total, int $cpu1_total, int $cpu2_total)
+  private function calculateWinnerByClosestTo21(int $player_total, int $dealer_total, int $cpu1_total, int $cpu2_total): void
   {
     $dealerDiff = abs(21 - $dealer_total);
     $playerDiff = abs(21 - $player_total);

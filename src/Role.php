@@ -8,6 +8,9 @@ use App\Card;
 
 class Role
 {
+  /**
+   * @var Card[]
+   */
   protected array $hands = [];
   protected Deck $deck;
   protected int $max_total_value;
@@ -85,7 +88,7 @@ class Role
     return $this->max_total_value;
   }
 
-  protected function calculateTotalValue(Calculate $calc)
+  protected function calculateTotalValue(Calculate $calc): int
   {
     $res = 0;
 
