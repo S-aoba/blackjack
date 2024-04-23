@@ -2,7 +2,7 @@
   "name": "st/blackjack",
   "autoload": {
     "psr-4": {
-      "St\\Blackjack\\": "src/"
+      "App\\": "src/"
     }
   },
   "require": {},

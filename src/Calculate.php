@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class Calculate
 {
   public function calculateTotalValue(string $value, int $total_value): int
