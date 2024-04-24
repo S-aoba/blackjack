@@ -12,6 +12,7 @@
   },
   "scripts": {
     "phpunit": "./vendor/bin/phpunit",
-    "phpcs": "./vendor/bin/phpcs --standard=phpcs.xml"
+    "phpcs": "./vendor/bin/phpcs --standard=phpcs.xml",
+    "phpstan": "./vendor/bin/phpstan"
   }
 }
